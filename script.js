@@ -1,4 +1,5 @@
-// गुरु AI - वास्तविक दिमाग (Brain Logic)
+const API_KEY = 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
+
 async function sendMessage() {
     const inputField = document.getElementById("userInput");
     const chatContainer = document.getElementById("chat-container");
@@ -6,29 +7,37 @@ async function sendMessage() {
 
     if (!userText) return;
 
-    // विद्यार्थीको म्यासेज स्क्रिनमा देखाउने
-    chatContainer.innerHTML += `
-        <div style="background:#222; align-self:flex-end; color:#d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%; margin-left:auto;">
-            ${userText}
-        </div>`;
-    
+    // विद्यार्थीको म्यासेज देखाउने
+    chatContainer.innerHTML += `<div style="background:#222; align-self:flex-end; color:#d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%; margin-left:auto; border-right:4px solid #d4af37;">${userText}</div>`;
     inputField.value = "";
 
-    // गुरु AI को 'सोच्दै गरेको' संकेत
+    // गुरु AI को प्रतीक्षा संकेत
     const tempId = "loading-" + Date.now();
-    chatContainer.innerHTML += `
-        <div id="${tempId}" style="background:#1a1a1a; border-left:4px solid #d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%;">
-            गुरु AI सोचिरहेको छ...
-        </div>`;
-    
+    chatContainer.innerHTML += `<div id="${tempId}" style="background:#1a1a1a; border-left:4px solid #d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%;">गुरु AI सोचिरहेको छ...</div>`;
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
-    // वास्तविक एआई जडानको नमुना
-    setTimeout(() => {
-        const loadingMsg = document.getElementById(tempId);
-        loadingMsg.innerHTML = `
-            <strong>गुरु AI:</strong> तपाईंको प्रश्न "<strong>${userText}</strong>" निकै महत्वपूर्ण छ। 
-            एक गुरुको रूपमा म तपाईंलाई यो भन्न चाहन्छु कि सिक्ने प्रक्रिया नै सफलताको पहिलो पाइला हो। 
-            <br><br><i>(नोट: अब हामी यसलाई OpenRouter को API Key सँग जोडेर असीमित बनाउनेछौँ।)</i>`;
-    }, 1200);
+    try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "model": "google/gemini-2.0-flash-exp:free",
+                "messages": [
+                    {"role": "system", "content": "तपाईं एक 'गुरु AI' हुनुहुन्छ। तपाईंको काम विद्यार्थीहरूलाई सरल नेपाली भाषामा सिकाउनु र मार्गनिर्देशन गर्नु हो।"},
+                    {"role": "user", "content": userText}
+                ]
+            })
+        });
+
+        const data = await response.json();
+        const aiResponse = data.choices[0].message.content;
+
+        document.getElementById(tempId).innerHTML = `<strong>गुरु AI:</strong> ${aiResponse}`;
+    } catch (error) {
+        document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> माफ गर्नुहोस्, म अहिले जोडिन सकिन। कृपया पछि प्रयास गर्नुहोस्।";
+    }
 }
+// गुरु 
