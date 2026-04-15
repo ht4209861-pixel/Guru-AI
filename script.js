@@ -1,44 +1,46 @@
+
 const API_KEY = "Sk-or-v1-5ad45daeeede25841d783532059aa9282c83265def92d9ea310353049b81b0b0";
 
-
 async function sendMessage() {
-    const inputField = document.getElementById("userInput");
-    const chatContainer = document.getElementById("chat-container");
-    const userText = inputField.value;
+    const input = document.getElementById("userInput");
+    const container = document.getElementById("chat-container");
+    const text = input.value.trim();
 
-    if (!userText) return;
+    if (!text) return;
 
-    // विद्यार्थीको म्यासेज देखाउने
-    chatContainer.innerHTML += `<div style="background:#222; align-self:flex-end; color:#d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%; margin-left:auto; border-right:4px solid #d4af37;">${userText}</div>`;
-    inputField.value = "";
+    // प्रयोगकर्ताको सन्देश
+    container.innerHTML += `<div class="message user-msg">${text}</div>`;
+    input.value = "";
+    container.scrollTop = container.scrollHeight;
 
-    // गुरु AI को प्रतीक्षा संकेत
-    const tempId = "loading-" + Date.now();
-    chatContainer.innerHTML += `<div id="${tempId}" style="background:#1a1a1a; border-left:4px solid #d4af37; padding:12px; margin:10px; border-radius:10px; max-width:80%;">गुरु AI सोचिरहेको छ...</div>`;
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    // लोड हुँदै गरेको सन्देश
+    const loadingId = "loading-" + Date.now();
+    container.innerHTML += `<div id="${loadingId}" class="message guru-msg">गुरु AI सोचिरहेको छ...</div>`;
 
     try {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${API_KEY}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "HTTP-Referer": window.location.href
             },
             body: JSON.stringify({
                 "model": "google/gemini-2.0-flash-exp:free",
                 "messages": [
-                    {"role": "system", "content": "तपाईं एक 'गुरु AI' हुनुहुन्छ। तपाईंको काम विद्यार्थीहरूलाई सरल नेपाली भाषामा सिकाउनु र मार्गनिर्देशन गर्नु हो।"},
-                    {"role": "user", "content": userText}
+                    { "role": "system", "content": "तपाईं एक गुरु AI हुनुहुन्छ। नेपालीमा जवाफ दिनुहोस्।" },
+                    { "role": "user", "content": text }
                 ]
             })
         });
 
         const data = await response.json();
-        const aiResponse = data.choices[0].message.content;
-
-        document.getElementById(tempId).innerHTML = `<strong>गुरु AI:</strong> ${aiResponse}`;
-    } catch (error) {
-        document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> माफ गर्नुहोस्, म अहिले जोडिन सकिन। कृपया पछि प्रयास गर्नुहोस्।";
+        const reply = data.choices[0].message.content;
+        document.getElementById(loadingId).innerHTML = `<strong>गुरु AI:</strong> ${reply}`;
+    } catch (e) {
+        document.getElementById(loadingId).innerHTML = "कनेक्सनमा समस्या आयो। फेरि प्रयास गर्नुहोस्।";
     }
+    container.scrollTop = container.scrollHeight;
 }
-// गुरु 
+
+
