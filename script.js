@@ -1,4 +1,5 @@
-const API_KEY = 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
+const API_KEY = "Sk-or-v1-5ad45daeeede25841d783532059aa9282c83265def92d9ea310353049b81b0b0";
+
 
 async function sendMessage() {
     const inputField = document.getElementById("userInput");
