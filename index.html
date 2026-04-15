@@ -1,15 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="ne">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>गुरु AI | निःशुल्क शिक्षाको नयाँ युग</title>
+    <title>गुरु AI | अर्जुनको एउटा सपना</title>
     <style>
-        /* Obsidian Gold Theme */
         body {
             background-color: #0d0d0d;
-            color: #d4af37; /* Gold color */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #d4af37;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -19,25 +19,29 @@
             padding: 20px;
             text-align: center;
             border-bottom: 2px solid #d4af37;
-            background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+            background: #1a1a1a;
         }
         #chat-container {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
-            background-size: 30px 30px;
         }
         .message {
             margin-bottom: 15px;
-            padding: 10px 15px;
+            padding: 12px;
             border-radius: 8px;
-            max-width: 80%;
+            max-width: 85%;
         }
         .guru-msg {
             background-color: #1a1a1a;
             border-left: 4px solid #d4af37;
-            align-self: flex-start;
+            color: #fff;
+        }
+        .user-msg {
+            background-color: #222;
+            border-right: 4px solid #d4af37;
+            margin-left: auto;
+            text-align: right;
         }
         .user-input-area {
             padding: 20px;
@@ -50,8 +54,9 @@
             background: #0d0d0d;
             border: 1px solid #d4af37;
             color: #d4af37;
-            padding: 10px;
+            padding: 12px;
             border-radius: 5px;
+            outline: none;
         }
         button {
             background-color: #d4af37;
@@ -73,15 +78,15 @@
 
 <div id="chat-container">
     <div class="message guru-msg">
-        नमस्ते विद्यार्थी साथी! म **गुरु AI** हुँ। म तपाईंलाई नयाँ सीप सिक्न र तपाईंको भविष्य निर्माण गर्न मद्दत गर्नेछु। आज हामी के कुराबाट सुरु गरौँ?
+        नमस्ते! म <b>गुरु AI</b> हुँ। म तपाईँलाई नयाँ सीप सिक्न मद्दत गर्नेछु। आज के कुरा गरौँ?
     </div>
 </div>
 
 <div class="user-input-area">
-    <input type="text" placeholder="आफ्नो प्रश्न यहाँ सोध्नुहोस्..." id="userInput">
+    <input type="text" id="userInput" placeholder="यहाँ आफ्नो प्रश्न लेख्नुहोस्...">
     <button onclick="sendMessage()">सोध्नुहोस्</button>
 </div>
 
-<script>
-    function sendMessage() <script src="script.js"></script>
-    
+<script src="script.js"></script>
+</body>
+</html>
