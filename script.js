@@ -1,4 +1,4 @@
-const API_KEY = "Sk-or-v1-5ad45daeeede25841d783532059aa9282c83265def92d9ea310353049b81b0b0";
+const API_KEY = "Sk-or-v1-951f066cd473d3d83d123b794f021ce9eb75a512d99375d586bae06ceffb0aa2";
 
 async function sendMessage() {
     const inputField = document.getElementById("userInput");
@@ -20,11 +20,11 @@ async function sendMessage() {
             headers: {
                 "Authorization": `Bearer ${API_KEY}`,
                 "Content-Type": "application/json",
-                "HTTP-Referer": window.location.href, // OpenRouter लाई यो चाहिन्छ
+                "HTTP-Referer": window.location.href,
                 "X-Title": "Guru AI"
             },
             body: JSON.stringify({
-                "model": "google/gemini-2.0-flash-lite:free", 
+                "model": "google/gemini-2.0-flash-lite:free",
                 "messages": [
                     {"role": "system", "content": "तपाईं एक नेपाली गुरु AI हुनुहुन्छ।"},
                     {"role": "user", "content": userText}
@@ -38,13 +38,10 @@ async function sendMessage() {
             const aiResponse = data.choices[0].message.content;
             document.getElementById(tempId).innerHTML = `<strong>गुरु AI:</strong> ${aiResponse}`;
         } else {
-            // यदि यहाँ एरर आयो भने 'Error Log' देखाउँछ
-            console.log(data);
-            document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> अहिले सेवा उपलब्ध छैन (Check Console)।";
+            document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> अहिले जोडिन सकिन। (API Key सक्रिय हुँदैछ)";
         }
     } catch (error) {
-        document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> कनेक्सन फेल भयो।";
+        document.getElementById(tempId).innerHTML = "<strong>गुरु AI:</strong> इन्टरनेट कनेक्सन चेक गर्नुहोस्।";
     }
     chatContainer.scrollTop = chatContainer.scrollHeight;
-}
-
+    }
